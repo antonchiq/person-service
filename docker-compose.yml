@@ -1,0 +1,18 @@
+version: '3.9'
+
+services:
+
+  mariadb:
+    restart: always
+    image: mariadb:10.8.2
+    environment:
+      MARIADB_ROOT_PASSWORD: test
+      MARIADB_DATABASE: person-service
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+
+volumes:
+  mariadb:
