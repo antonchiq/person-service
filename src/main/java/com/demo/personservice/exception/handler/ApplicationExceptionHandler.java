@@ -1,20 +1,19 @@
 package com.demo.personservice.exception.handler;
 
 import com.demo.personservice.exception.ApplicationException;
-import org.springframework.http.HttpHeaders;
+import com.demo.personservice.exception.ErrorMessage;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
-public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
+import java.util.Date;
+
+@RestControllerAdvice
+public class ApplicationExceptionHandler {
 
     @ExceptionHandler(value = {ApplicationException.class})
-    public ResponseEntity<Object> handleException(ApplicationException exception,
-                                                  WebRequest request) {
-        return handleExceptionInternal(exception, exception.getMessage(),
-            new HttpHeaders(), exception.getCode(), request);
+    public ResponseEntity<ErrorMessage> handleException(ApplicationException exception) {
+        return new ResponseEntity<>(new ErrorMessage(exception.getMessage(), new Date()), exception
+            .getCode());
     }
 }
